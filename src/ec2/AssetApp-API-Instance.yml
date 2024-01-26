@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: API Instance for Asset App
+
+Parameters:
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup::Id
+  KeyPairName:
+    Type: String
+    Default: AssetApp-API-Instance-KeyPair
+  ImageId:
+    Type: AWS::EC2::Image::Id
+    Default: ami-0611295b922472c22
+  InstanceType:
+    Type: String
+    Default: t2.micro
+  InstanceName:
+    Type: String
+    Default: AssetApp-API-Instance
+
+Resources:
+  AssetAppAPIKeyPair:
+    Type: AWS::EC2::KeyPair
+    Properties:
+      KeyName: !Ref KeyPairName
+      KeyType: rsa
+      KeyFormat: pem
+
+  AssetAppAPIInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      KeyName: !Ref AssetAppAPIKeyPair
+      ImageId: !Ref ImageId
+      InstanceType: !Ref InstanceType
+      SecurityGroupIds:
+        - !Ref SecurityGroup
+      UserData: !Base64 |
+        #!/bin/bash -ex
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+        . ~/.nvm/nvm.sh
+        nvm install 16.19.1
+        
+      Tags:
+        - Key: Name
+          Value: !Ref InstanceName
