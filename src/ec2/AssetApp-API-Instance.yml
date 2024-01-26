@@ -16,6 +16,8 @@ Parameters:
   InstanceName:
     Type: String
     Default: AssetApp-API-Instance
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
 
 Resources:
   AssetAppAPIKeyPair:
@@ -31,6 +33,7 @@ Resources:
       KeyName: !Ref AssetAppAPIKeyPair
       ImageId: !Ref ImageId
       InstanceType: !Ref InstanceType
+      SubnetId: !Ref SubnetId
       SecurityGroupIds:
         - !Ref SecurityGroup
       UserData: !Base64 |
