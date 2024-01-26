@@ -1,0 +1,7 @@
+{
+    "Parameters": {
+      "BucketName": "assetapp-artifact-bucket-2024010100005",
+      "CodePipelineName": "AssetApp-CodePipeline-Infra"
+    }
+  }
+  
