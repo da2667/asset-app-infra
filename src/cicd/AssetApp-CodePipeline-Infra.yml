@@ -28,11 +28,11 @@ Resources:
                 - codebuild.amazonaws.com
             Action:
               - sts:AssumeRole
-        Policies:
-          - PolicyName: "root"
-            PolicyDocument:
-              Version: "2012-10-17"
-              Statement:
+      Policies:
+        - PolicyName: "root"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
                 - Effect: "Allow"
                   Action:
                     - "iam:PassRole"
