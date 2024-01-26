@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Asset App's Database (RDS) security group
+
+Parameters:
+  SGName:
+    Type: String
+    Default: AssetApp-DB-SG
+  SGDescription:
+    Type: String
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+  AppInstanceSG:
+    Type: AWS::EC2::SecurityGroup::Id
+
+Resources:
+  AssetAppDBSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Ref SGName
+      GroupDescription: !Ref SGDescription
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !Ref AppInstanceSG
+      Tags:
+        - Key: Name
+          Value: !Ref SGName
