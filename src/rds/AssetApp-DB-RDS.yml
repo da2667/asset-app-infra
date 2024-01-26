@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Asset App's Main RDS database instance running MySQL
+
+Parameters:
+  AllocatedStorage:
+    Type: Number
+    Default: 20
+  AZ:
+    Type: AWS::EC2::AvailabilityZone::Name
+  DBSubnet1:
+    Type: AWS::EC2::Subnet::Id
+  DBSubnet2:
+    Type: AWS::EC2::Subnet::Id
+  DBInstanceClass:
+    Type: String
+    Default: db.t2.micro
+  DBIdentifier:
+    Type: String
+    Default: AssetApp-DB-RDS
+  DBName:
+    Type: String
+    Default: assetappdb
+  DBPort:
+    Type: Number
+    Default: 3306
+  DBUser:
+    Type: String
+  DBPass:
+    Type: String
+    NoEcho: true
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup::Id
+
+Resources:
+  AssetAppDBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnet Group for Asset App DB
+      SubnetIds:
+        - !Ref DBSubnet1
+        - !Ref DBSubnet2
+      Tags:
+        - Key: Name
+          Value: Asset App DB Subnet Group
+
+  AssetAppDBRDS:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllocatedStorage: !Ref AllocatedStorage
+      DBInstanceClass: !Ref DBInstanceClass
+      AvailabilityZone: !Ref AZ
+      DBInstanceIdentifier: !Ref DBIdentifier
+      DBName: !Ref DBName
+      DBSubnetGroupName: !Ref AssetAppDBSubnetGroup
+      Engine: mysql
+      MasterUsername: !Ref DBUser
+      MasterUserPassword: !Ref DBPass
+      Port: !Ref DBPort
+      PubliclyAccessible: false
+      VPCSecurityGroups:
+        - !Ref SecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Ref DBName

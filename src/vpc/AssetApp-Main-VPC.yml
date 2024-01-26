@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Asset App's VPC template
+
+Parameters:
+  VpcName:
+    Type: String
+    Default: AssetApp-Main-VPC
+
+Resources:
+  AssetAppMainVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value: !Ref VpcName
