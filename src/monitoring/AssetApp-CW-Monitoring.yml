@@ -28,47 +28,6 @@ Resources:
               "liveData": true
           }
         },
-        {
-          "height": 12,
-          "width": 12,
-          "y": 0,
-          "x": 6,
-          "type": "metric",
-          "properties": {
-              "view": "timeSeries",
-              "stacked": false,
-              "metrics": ["AWS/Lambda", "Errors", "FunctionName", "my-function-name"],
-
-              "region": "us-east-1",
-              "liveData": true
-          }
-        },
-
-        {
-          "height": 3,
-          "width": 6,
-          "y": 0,
-          "x": 18,
-          "type": "metric",
-          "properties": {
-              "view": "timeSeries",
-              "stacked": false,
-              "metrics": ["AWS/Lambda", "Duration", "FunctionName", "my-function-name"],
-
-              "region": "us-east-1",
-              "liveData": true
-          }
-        }],
-        "variables": [{
-        "type": "property",
-        "property": "FunctionName",
-        "inputType": "select",
-        "id": "LambdaFunction_Variable",
-        "label": "Function",
-        "visible": true,
-        "search": "{AWS/Lambda,FunctionName} MetricName=\"Duration\"",
-        "populateFrom": "FunctionName"
-        }]
         }'
 
       DashboardName: !Ref DashboardName
