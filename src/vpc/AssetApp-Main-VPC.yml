@@ -5,6 +5,10 @@ Parameters:
   VpcName:
     Type: String
     Default: AssetApp-Main-VPC
+  AZ1:
+    Type: AWS::EC2::AvailabilityZone::Name
+  AZ2:
+    Type: AWS::EC2::AvailabilityZone::Name
 
 Resources:
   AssetAppMainVPC:
@@ -15,3 +19,81 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref VpcName
+
+  FrontendSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref AZ1
+      VpcId: !Ref AssetAppMainVPC
+      CidrBlock: 10.0.0.0/24
+      Tags:
+        - Key: Name
+          Value: FrontendSubnet
+  APISubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref AZ2
+      VpcId: !Ref AssetAppMainVPC
+      CidrBlock: 10.0.1.0/24
+      Tags:
+        - Key: Name
+          Value: APISubnet
+  DBSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref AZ1
+      VpcId: !Ref AssetAppMainVPC
+      CidrBlock: 10.0.2.0/24
+      Tags:
+        - Key: Name
+          Value: DBSubnet1
+  DBSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref AZ2
+      VpcId: !Ref AssetAppMainVPC
+      CidrBlock: 10.0.3.0/24
+      Tags:
+        - Key: Name
+          Value: DBSubnet2
+
+  AssetAppIGW:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: IGW
+
+  AssetAppAttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref AssetAppMainVPC
+      InternetGatewayId: !Ref AssetAppIGW
+  
+  AssetAppPublicRT:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref AssetAppMainVPC
+      Tags:
+        - Key: Name
+          Value: AssetAppPublicRT
+
+  AssetAppPrivateRT:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref AssetAppMainVPC
+      Tags:
+        - Key: Name
+          Value: AssetAppPrivateRT
+  
+  AssetAppPublicRTAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref FrontendSubnet
+      RouteTableId: !Ref AssetAppPublicRT
+
+  AssetAppPrivateRTAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref APISubnet
+      RouteTableId: !Ref AssetAppPrivateRT
