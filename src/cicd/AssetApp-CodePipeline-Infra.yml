@@ -55,7 +55,7 @@ Resources:
                 - codepipeline.amazonaws.com
             Action:
               - sts:AssumeRole
-        Policies:
+      Policies:
           - PolicyName: "root"
             PolicyDocument:
               Version: "2012-10-17"
@@ -81,6 +81,7 @@ Resources:
     Properties:
       Source:
         Type: GITHUB
+        Location: https://github.com/da2667/asset-app-infra.git
       ServiceRole: !Ref CodeBuildRole
       Artifacts:
         Type: NO_ARTIFACTS
