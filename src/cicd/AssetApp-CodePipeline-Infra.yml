@@ -28,11 +28,11 @@ Resources:
                 - codebuild.amazonaws.com
             Action:
               - sts:AssumeRole
-        Policies:
-          - PolicyName: "root"
-            PolicyDocument:
-              Version: "2012-10-17"
-              Statement:
+      Policies:
+        - PolicyName: "root"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
                 - Effect: "Allow"
                   Action:
                     - "iam:PassRole"
@@ -48,7 +48,14 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Policies:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codepipeline.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
           - PolicyName: "root"
             PolicyDocument:
               Version: "2012-10-17"
@@ -74,6 +81,7 @@ Resources:
     Properties:
       Source:
         Type: GITHUB
+        Location: https://github.com/da2667/asset-app-infra.git
       ServiceRole: !Ref CodeBuildRole
       Artifacts:
         Type: NO_ARTIFACTS
