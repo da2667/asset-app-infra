@@ -12,22 +12,23 @@ Resources:
   AssetAppDashboard:
     Type: AWS::CloudWatch::Dashboard
     Properties:
-      DashboardBody: !Sub '{
+      DashboardBody: !Sub |
+        '{
           "widgets": [{
-          "height": 6,
-          "width": 6,
-          "y": 0,
-          "x": 0,
-          "type": "metric",
-          "properties": {
+            "height": 6,
+            "width": 6,
+            "y": 0,
+            "x": 0,
+            "type": "metric",
+            "properties": {
               "view": "timeSeries",
               "stacked": false,
               "metrics": ["AWS/EC2", "CPUUtilization", "InstanceId", "${FrontendInstanceId}"],
 
               "region": "ap-southeast-2",
               "liveData": true
-          }
-        },
+            }
+          }]
         }'
 
       DashboardName: !Ref DashboardName
