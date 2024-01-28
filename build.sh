@@ -19,5 +19,5 @@ aws cloudformation deploy --stack-name AssetApp-API-Instance-Stack --template-fi
 echo "Deploying RDS..."
 aws cloudformation deploy --stack-name AssetApp-DB-RDS-Stack --template-file ./src/rds/AssetApp-DB-RDS.yml --capabilities CAPABILITY_NAMED_IAM
 
-echo "Deploying Monitoring goodies..."
+echo "Deploying CloudWatch Monitoring stack..."
 aws cloudformation deploy --stack-name AssetApp-CW-Monitoring-Stack --template-file ./src/monitoring/AssetApp-CW-Monitoring.yml --capabilities CAPABILITY_NAMED_IAM
