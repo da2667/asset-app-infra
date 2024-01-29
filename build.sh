@@ -1,14 +1,19 @@
 #!/bin/bash
+
+REGION="ap-southeast-2"
+
 echo "Deploying pipeline(s)..."
 aws cloudformation deploy --stack-name AssetApp-CodePipeline-Infra-Stack --template-file ./src/cicd/AssetApp-CodePipeline-Infra.yml --capabilities CAPABILITY_NAMED_IAM --parameter-overrides file://src/cicd/config.json
+
 # Add frontend app pipeline here
 # Add backend app pipeline here
 
 echo "Deploying networking..."
-aws cloudformation deploy --stack-name AssetApp-Main-VPC-Stack --template-file ./src/vpc/AssetApp-Main-VPC.yml --capabilities CAPABILITY_NAMED_IAM  --parameter-overrides file://src/vpc/config.json
+aws cloudformation deploy --stack-name AssetApp-Main-VPC-Stack --template-file ./src/vpc/vpc.yml --capabilities CAPABILITY_NAMED_IAM  --parameter-overrides file://src/vpc/config.json
+VPCID=$(aws cloudformation --region $REGION describe-stacks --stack-name AssetApp-Main-VPC-Stack --query 'Stacks[0].Outputs[?OutputKey==`VpcId`].OutputValue' --output text)
 
 echo "Deploying security groups..."
-aws cloudformation deploy --stack-name AssetApp-Frontend-SG-Stack --template-file ./src/security_groups/AssetApp-Frontend-SG.yml --capabilities CAPABILITY_NAMED_IAM
+aws cloudformation deploy --stack-name AssetApp-Frontend-SG-Stack --template-file ./src/security_groups/sg-cidr.yml --capabilities CAPABILITY_NAMED_IAM --parameter-overrides SGName='AssetApp-Frontend-SG' SGDescription='test' VpcId=$VPCID
 aws cloudformation deploy --stack-name AssetApp-API-SG-Stack --template-file ./src/security_groups/AssetApp-API-SG.yml --capabilities CAPABILITY_NAMED_IAM
 aws cloudformation deploy --stack-name AssetApp-DB-SG-Stack --template-file ./src/security_groups/AssetApp-DB-SG.yml --capabilities CAPABILITY_NAMED_IAM
 

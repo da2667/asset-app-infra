@@ -4,7 +4,6 @@ Description: Asset App's VPC template
 Parameters:
   VpcName:
     Type: String
-    Default: AssetApp-Main-VPC
   AZ1:
     Type: AWS::EC2::AvailabilityZone::Name
   AZ2:
@@ -29,6 +28,7 @@ Resources:
       Tags:
         - Key: Name
           Value: FrontendSubnet
+
   APISubnet:
     Type: AWS::EC2::Subnet
     Properties:
@@ -97,3 +97,10 @@ Resources:
     Properties:
       SubnetId: !Ref APISubnet
       RouteTableId: !Ref AssetAppPrivateRT
+
+Outputs:
+  VpcId:
+    Description: VPC Id for export for other stacks
+    Value: !Ref AssetAppMainVPC
+    Export:
+      Name: !Join ["-", ["Output", !Ref VpcName]]

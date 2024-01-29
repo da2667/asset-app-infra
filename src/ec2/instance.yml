@@ -1,21 +1,17 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: API Instance for Asset App
+Description: Frontend Application Instance for Asset App
 
 Parameters:
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup::Id
   KeyPairName:
     Type: String
-    Default: AssetApp-API-Instance-KeyPair
   ImageId:
     Type: AWS::EC2::Image::Id
-    Default: ami-0611295b922472c22
   InstanceType:
     Type: String
-    Default: t2.micro
   InstanceName:
     Type: String
-    Default: AssetApp-API-Instance
   SubnetId:
     Type: AWS::EC2::Subnet::Id
 

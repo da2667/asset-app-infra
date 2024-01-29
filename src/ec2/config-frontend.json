@@ -1,0 +1,10 @@
+{
+  "Parameters": {
+      "SecurityGroupId": "",
+      "KeyPairName": "AssetApp-Frontend-KeyPair",
+      "ImageId": "ami-0611295b922472c22",
+      "InstanceType": "t2.micro",
+      "InstanceName": "AssetApp-Frontend-Instance",
+      "SubnetId": ""
+  }
+}
