@@ -9,8 +9,10 @@ Parameters:
     Type: String
   VpcId:
     Type: AWS::EC2::VPC::Id
-  FrontendInstanceSG:
+  SourceSG:
     Type: AWS::EC2::SecurityGroup::Id
+  Port:
+    Type: Number
 
 Resources:
   AssetAppAPISG:
@@ -21,9 +23,9 @@ Resources:
       VpcId: !Ref VpcId
       SecurityGroupIngress:
         - IpProtocol: tcp
-          FromPort: 3001
-          ToPort: 3001
-          SourceSecurityGroupId: !Ref FrontendInstanceSG
+          FromPort: !Ref Port
+          ToPort: !Ref Port
+          SourceSecurityGroupId: !Ref SourceSG
       Tags:
         - Key: Name
           Value: !Ref SGName

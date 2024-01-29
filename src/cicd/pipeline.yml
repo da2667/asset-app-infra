@@ -84,7 +84,7 @@ Resources:
     Properties:
       Source:
         Type: GITHUB
-        Location: 
+        Location: !Ref GitHubRepo
       ServiceRole: !Ref CodeBuildRole
       Artifacts:
         Type: S3

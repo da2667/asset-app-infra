@@ -1,8 +1,0 @@
-{
-  "Parameters": {
-    "BucketName": "assetapp-artifact-bucket-2024010100005",
-    "CodePipelineName": "AssetApp-Infra-Pipeline",
-    "GitHubRepo": "https://github.com/da2667/asset-app-infra.git",
-    "CodeBuildImage": "aws/codebuild/amazonlinux2-x86_64-standard:5.0"
-  }
-}
